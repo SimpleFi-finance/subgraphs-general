@@ -38,6 +38,7 @@ export function getOrCreateBalance(account: Address, token: Address): Balance | 
   balance.blockNumber = BigInt.fromI32(0)
   balance.timestamp = BigInt.fromI32(0)
   balance.account = accountHex
+  balance.token = tokenHex
   balance.save()
   return balance as Balance
 }

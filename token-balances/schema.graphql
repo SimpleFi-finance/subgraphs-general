@@ -32,6 +32,7 @@ type Token @entity {
 type Balance @entity {
   id: ID! # {accountAddress}|{tokenAddress}
   account: Account!
+  token: Token!
   balance: BigInt!
   blockNumber: BigInt!
   timestamp: BigInt!
