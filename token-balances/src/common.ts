@@ -28,17 +28,18 @@ export function getOrCreateBalance(account: Address, token: Address): Balance | 
     return null
   }
   let tokenHex = token.toHexString()
-  let accountEntity = Balance.load(tokenHex + "|" + accountHex)
-  if (accountEntity != null) {
-    return accountEntity as Balance
+  let balance = Balance.load(tokenHex + "|" + accountHex)
+  if (balance != null) {
+    return balance as Balance
   }
 
-  accountEntity = new Balance(tokenHex + "|" + accountHex)
-  accountEntity.balance = BigInt.fromI32(0)
-  accountEntity.blockNumber = BigInt.fromI32(0)
-  accountEntity.timestamp = BigInt.fromI32(0)
-  accountEntity.save()
-  return accountEntity as Balance
+  balance = new Balance(tokenHex + "|" + accountHex)
+  balance.balance = BigInt.fromI32(0)
+  balance.blockNumber = BigInt.fromI32(0)
+  balance.timestamp = BigInt.fromI32(0)
+  balance.account = accountHex
+  balance.save()
+  return balance as Balance
 }
 
 export function getOrCreateERC20Token(event: ethereum.Event, address: Address): Token {
