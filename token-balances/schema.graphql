@@ -16,7 +16,7 @@ enum TokenStandard {
 
 type Account @entity {
   id: ID! # {accountAddress}
-  #balances: [Balance!]! @derivedFrom(field: "account")
+  balances: [Balance!]! @derivedFrom(field: "account")
 }
 
 type Token @entity {
@@ -31,7 +31,7 @@ type Token @entity {
 
 type Balance @entity {
   id: ID! # {accountAddress}|{tokenAddress}
-  #account: Account!
+  account: Account!
   balance: BigInt!
   blockNumber: BigInt!
   timestamp: BigInt!

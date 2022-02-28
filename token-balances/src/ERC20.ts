@@ -1,5 +1,4 @@
 import { BigInt, log } from "@graphprotocol/graph-ts"
-//import { ERC20 } from "../generated/templates"
 import {
   Transfer
 } from "../generated/ERC20Factory/ERC20"
@@ -15,8 +14,8 @@ export function handleTransfer(event: Transfer): void {
   }
 
   getOrCreateERC20Token(event, event.address)
-  // let accountFrom = getOrCreateAccount(event.params.from)
-  // let accountTo = getOrCreateAccount(event.params.to)
+  let accountFrom = getOrCreateAccount(event.params.from)
+  let accountTo = getOrCreateAccount(event.params.to)
 
   // log.warning("Transfer {} tokens from {} to {} on {}", [event.params.value.toString(), event.params.from.toHexString(), event.params.to.toHexString(), event.transaction.hash.toHexString()]);
   
@@ -27,6 +26,7 @@ export function handleTransfer(event: Transfer): void {
     balanceFrom.balance = balanceFrom.balance.minus(event.params.value)
     balanceFrom.blockNumber = event.block.number
     balanceFrom.timestamp = event.block.timestamp
+    balanceFrom.account = accountFrom.id
     balanceFrom.save()
   }
 
@@ -36,9 +36,7 @@ export function handleTransfer(event: Transfer): void {
     balanceTo.balance = balanceTo.balance.plus(event.params.value)
     balanceTo.blockNumber = event.block.number
     balanceTo.timestamp = event.block.timestamp
+    balanceTo.account = accountTo.id
     balanceTo.save()
   }
-
-  // Start listening for market events
-  //ERC20.create(event.params.pair)
 }
