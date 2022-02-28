@@ -104,6 +104,7 @@ dist
 .tern-port
 
 package-lock.json
+subgraph.yaml
 
 build/
 generated/
