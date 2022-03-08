@@ -1,4 +1,4 @@
-import { BigInt, log } from "@graphprotocol/graph-ts"
+import { BigInt } from "@graphprotocol/graph-ts"
 import {
   Transfer
 } from "../generated/ERC20Factory/ERC20"
@@ -13,7 +13,13 @@ export function handleTransfer(event: Transfer): void {
     return
   }
 
-  getOrCreateERC20Token(event, event.address)
+  let token = getOrCreateERC20Token(event, event.address)
+
+  // If null, it wasn't an ERC20 token address
+  if (!token) {
+    return
+  }
+  
   let accountFrom = getOrCreateAccount(event.params.from)
   let accountTo = getOrCreateAccount(event.params.to)
 

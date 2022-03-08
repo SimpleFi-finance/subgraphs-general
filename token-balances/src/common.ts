@@ -1,4 +1,4 @@
-import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts"
+import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts"
 import {
   Account,
   Balance,
@@ -61,10 +61,18 @@ export function getOrCreateERC20Token(event: ethereum.Event, address: Address): 
   if (!trySymbol.reverted) {
     token.symbol = trySymbol.value
   }
+  
+  //log.warning("Getting decimals for token {} {} {} at TX {}", [token.name, token.symbol, addressHex, event.transaction.hash.toHexString()])
   let tryDecimals = tokenInstance.try_decimals()
-  if (!tryDecimals.reverted) {
-    token.decimals = tryDecimals.value
+
+  // If decimals call is reverted it's not an ERC20 token
+  if (tryDecimals.reverted) {
+    return
   }
+
+  token.decimals = tryDecimals.value
+
+  //log.warning("Getting decimals finished successfully for token {} {} {} at TX {}", [token.name, token.symbol, addressHex, event.transaction.hash.toHexString()])
   token.blockNumber = event.block.number
   token.timestamp = event.block.timestamp
   token.save()
