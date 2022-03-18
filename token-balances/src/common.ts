@@ -43,7 +43,7 @@ export function getOrCreateBalance(account: Address, token: Address): Balance | 
   return balance as Balance
 }
 
-export function getOrCreateERC20Token(event: ethereum.Event, address: Address): Token {
+export function getOrCreateERC20Token(event: ethereum.Event, address: Address): Token | null {
   let addressHex = address.toHexString()
   let token = Token.load(addressHex)
   if (token != null) {
@@ -67,7 +67,7 @@ export function getOrCreateERC20Token(event: ethereum.Event, address: Address): 
 
   // If decimals call is reverted it's not an ERC20 token
   if (tryDecimals.reverted) {
-    return
+    return null
   }
 
   token.decimals = tryDecimals.value
