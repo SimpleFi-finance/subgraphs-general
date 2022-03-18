@@ -29,6 +29,12 @@ type Token @entity {
   timestamp: BigInt!
 }
 
+type IgnoredToken @entity {
+  id: ID! # {tokenAddress}
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}
+
 type Balance @entity {
   id: ID! # {accountAddress}|{tokenAddress}
   account: Account!
