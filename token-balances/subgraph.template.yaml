@@ -16,6 +16,7 @@ dataSources:
         - Account
         - Balance
         - Token
+        - IgnoredToken
       abis:
         - name: ERC20
           file: ./abis/IERC20.json
